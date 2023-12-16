@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabel Penilaian</title>
+  <!--=============== REMIXICONS ===============-->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <style>
+    #tb {
+      width: 100%;
+      height: auto;
+      font-size: 100pt;
+      background: blue;
+      color: white;
+      margin-top: 20px;
+
+    }
+
+    #clock {
+      width: 100%;
+      height: 125px;
+      font-size: 70pt;
+      background: blue;
+      color: white;
+      text-align: center;
+      margin-top: 20px;
+
+    }
+
+    .scrollup {
+      position: fixed;
+      right: 1rem;
+      bottom: -150%;
+      background-color: var(--container-color);
+      box-shadow: 0 4px 12px hsla(19, 64%, 24%, 0.1);
+      display: inline-flex;
+      padding: 0.35rem;
+      border-radius: 0.25rem;
+      font-size: 1.1rem;
+      color: var(--first-color);
+      z-index: var(--z-tooltip);
+      transition: bottom 0.3s, transform 0.3s, background 0.4s;
+    }
+
+    .scrollup:hover {
+      transform: translateY(-0.25rem);
+    }
+
+    /* Show Scroll Up*/
+    .show-scroll {
+      bottom: 3rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container justify-content-center align-items-center" id="pembuka">
+    <div class="d-flex flex-column">
+      <h1>Tuliskan Nama Pemain</h1>
+      <div class="d-flex flex-column gap-2 mt-2">
+        <input class="form-control form-control-lg text-center" type="text" placeholder="P1" name="name1" required
+          id="p1" />
+        <input class="form-control form-control-lg text-center" id="p2" type="text" placeholder="P2" name="name2" />
+        <input class="form-control form-control-lg text-center" id="p3" type="text" placeholder="P3" name="name3" />
+        <input class="form-control form-control-lg text-center" id="p4" type="text" placeholder="P4" name="name4" />
+        <input class="form-control form-control-lg text-center" id="p5" type="text" placeholder="P5" name="name5" />
+        <input class="form-control form-control-lg text-center" id="p6" type="text" placeholder="P6" name="name6" />
+        <button class="btn btn-dark text-uppercase fw-bold btn-lg mt-2" onclick="mulai()" id="mulai">MULAI</button>
+      </div>
+    </div>
+  </div>
+
+  <h1 id="clock"></h1>
+
+
+  <div class="container  justify-content-center align-items-center " id="nilai">
+    <div class="table-responsive">
+      <table id="datatable" class="table table-striped">
+        <thead>
+          <tr class="fw-bold display-1">
+            <th></th>
+            <th>Nama</th>
+            <th>Nilai</th>
+          </tr>
+        </thead>
+        <tr class="fw-bold display-1 bg-warning">
+          <th>1</th>
+          <th id="niiil1" onclick="showModal()"></th>
+
+          <th id="niiil12"></th>
+        </tr>
+        <tr class="fw-bold display-1">
+          <th>2</th>
+          <th id="niiil2"></th>
+          <th id="niiil22"></th>
+        </tr>
+        <tr class="fw-bold display-1">
+          <th>3</th>
+          <th id="niiil3"></th>
+          <th id="niiil32"></th>
+        </tr>
+        <tr class="fw-bold display-1">
+          <th>4</th>
+          <th id="niiil4"></th>
+          <th id="niiil42"></th>
+        </tr>
+        <tr class="fw-bold display-1">
+          <th>5</th>
+          <th id="niiil5"></th>
+          <th id="niiil52" class="bg-danger text-white"></th>
+        </tr>
+        <tr class="fw-bold display-1">
+          <th>6</th>
+          <th id="niiil6"></th>
+          <th id="niiil62" class="bg-danger text-white"></th>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+  <marquee id="tb"> ini adalah perolehan nilai saat ini </marquee>
+
+  <div id="gantinama">
+    <tr>
+      <td>
+        **
+        <select class="form-select text-center" place-holder="PILIH NAMA YANG INGIN DIGANTI" name="gantinamaa"
+          id="gantinamaa">
+          <option value="1" id="gnma1">nama1</option>
+          <option value="2" id="gnma2">nama2</option>
+          <option value="3" id="gnma3">nama3</option>
+          <option value="4" id="gnma4">nama4</option>
+          <option value="5" id="gnma5">nama5</option>
+          <option value="6" id="gnma6">nama6</option>
+        </select>
+        <input class="text-center" id="tgnma" style="margin-top:10px; margin-left :20px;" type="text"
+          placeholder="Isi Nama Baru" name="name" />
+      </td>
+    </tr>
+    <button class="btn btn-sm btn-primary" id="tblgnma" type="button" onclick="gnma2()"><a class="nav-link"
+        href="#nilai">Ganti Nama</a></button>
+  </div>
+
+
+
+
+  <div class="container mt-4 mb-10" id="isinya">
+    <div class="row">
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <form id="form">
+              <input type="hidden" name="id" id="id" />
+              <label for="main1" id="lab1" class="fw-bold display-1"></label>
+              <input type="number" placeholder='isi nilai' class="form-control" name="main1" id="main1" required />
+
+              <label for="main2" id="lab2" class="fw-bold display-1"></label>
+              <input type="number" placeholder="isi nilai" class="form-control" name="main2" id="main2" required />
+              <label for="main3" id="lab3" class="fw-bold display-1"></label>
+              <input type="number" name="main3" placeholder="isi nilai" id="main3" class="form-control"></input>
+              <label for="main4" id="lab4" class="fw-bold display-1"></label>
+              <input type="number" placeholder="isi nilai" class="form-control" id="main4" name="main4" />
+              <label for="main5" id="lab5" class="fw-bold display-1"></label>
+              <input type="number" placeholder="isi nilai" class="form-control" id="main5" name="main5" />
+              <label for="main6" id="lab6" class="fw-bold display-1"></label>
+              <input type="number" placeholder="isi nilai" class="form-control" id="main6" name="main6" />
+              <br />
+              <br>
+              <br>
+
+
+              <button class="btn text-uppercase fw-bold btn-lg btn-primary" href="#" type="button" onclick="save()"><a
+                  class="nav-link" href="#">Masukan Nilai</a></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive" id="htmlContent">
+              <table id="datatable" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ronde</th>
+                    <th id="tp1">P1</th>
+                    <th id="tp2">P2</th>
+                    <th id="tp3">P3</th>
+                    <th id="tp4">P4</th>
+                    <th id="tp5">P5</th>
+                    <th id="tp6">P6</th>
+                  </tr>
+                </thead>
+                <tbody id="table"></tbody>
+                <thead>
+                  <tr>
+                    <th>total</th>
+                    <th id="hn1">0</th>
+                    <th id="hn2">0</th>
+                    <th id="hn3">0</th>
+                    <th id="hn4">0</th>
+                    <th id="hn5">0</th>
+                    <th id="hn6">0</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <br><br><br>
+    <div class="d-flex flex-column gap-2 mt-5">
+      <button class="btn btn-primary text-uppercase fw-bold  mt-2 " onclick="pmp()" id="kembalikan" href="#">PENGUMUMAN
+        SCORE</button>
+      <button class="btn btn-danger text-uppercase fw-bold btn-lg mt-2 " onclick="clearData()" id="mulai">RESET</button>
+      <button class="btn btn-dark text-uppercase  mt-2 " onclick="hapusNilai()" id="kembalikan">HAPUS NILAI</button>
+    </div>
+  </div>
+  <a href="#" class="scrollup" id="scroll-up">
+    <i class="ri-arrow-up-line"></i>
+  </a>
+
+  <div id="tampil"></div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center pb-3 mt-4">
+    <p>Created by S.Khahfi</p>
+  </footer>
+  <!-- Akhir Footer -->
+
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+
+  <script>
+    function urtn() {
+  var urutan = {
+    1: { nama: localStorage.getItem("nameP1"), nl: Number(localStorage.getItem("nt1")) },
+    2: { nama: localStorage.getItem("nameP2"), nl: Number(localStorage.getItem("nt2")) },
+    3: { nama: localStorage.getItem("nameP3"), nl: Number(localStorage.getItem("nt3")) },
+    4: { nama: localStorage.getItem("nameP4"), nl: Number(localStorage.getItem("nt4")) },
+    5: { nama: localStorage.getItem("nameP5"), nl: Number(localStorage.getItem("nt5")) },
+    6: { nama: localStorage.getItem("nameP6"), nl: Number(localStorage.getItem("nt6")) },
+  };
+  var arr = [];
+  for (i in urutan) {
+    arr.push([urutan[i].nama, urutan[i].nl]);
+  }
+  arr.sort(function(a, b) {
+    return b[1] - a[1];
+  });
+
+  document.getElementById("niiil1").innerHTML = arr[0][0];
+  document.getElementById("niiil12").innerHTML = arr[0][1];
+  document.getElementById("niiil2").innerHTML = arr[1][0];
+  document.getElementById("niiil22").innerHTML = arr[1][1];
+  document.getElementById("niiil3").innerHTML = arr[2][0];
+  document.getElementById("niiil32").innerHTML = arr[2][1];
+  document.getElementById("niiil4").innerHTML = arr[3][0];
+  document.getElementById("niiil42").innerHTML = arr[3][1];
+  document.getElementById("niiil5").innerHTML = arr[4][0];
+  document.getElementById("niiil52").innerHTML = arr[4][1];
+  document.getElementById("niiil6").innerHTML = arr[5][0];
+  document.getElementById("niiil62").innerHTML = arr[5][1];
+
+  var urutanNilai = JSON.stringify(arr)
+  localStorage.setItem('urutan', urutanNilai)
+
+
+  document.getElementById("tb").textContent = `${arr[0][0]} ${arr[0][1]}.....${arr[1][0]} ${arr[1][1]}.....${arr[2][0]} ${arr[2][1]}.....${arr[3][0]} ${arr[3][1]}.....${arr[4][0]} ${arr[4][1]}.....${arr[5][0]} ${arr[5][1]}`;
+
+  swal(`nilai tertinggi adalah ${arr[0][0]}
+  dan dua terendah adalah ${arr[4][0]} dan ${arr[5][0]}
+  daftar nilai diatas`);
+}
+
+//method to save data into localstorage
+function save() {
+  //get data from localstorage and store to contaclist array
+  //we must to use JSON.parse, because data as string, we need convert to array
+  contactList = JSON.parse(localStorage.getItem("listItem")) ?? [];
+
+  //get last array to get last id
+  //and store it into variable id
+  var id;
+  contactList.length != 0 ? contactList.findLast((item) => (id = item.id)) : (id = 0);
+
+  if (document.getElementById("id").value) {
+    //edit contactlist array based on value
+    contactList.forEach((value) => {
+      if (document.getElementById("id").value == value.id) {
+        (value.main1 = document.getElementById("main1").value),
+          (value.main2 = document.getElementById("main2").value),
+          (value.main3 = document.getElementById("main3").value),
+          (value.main4 = document.getElementById("main4").value),
+          (value.main5 = document.getElementById("main5").value),
+          (value.main6 = document.getElementById("main6").value);
+      }
+    });
+
+    //remove hidden input
+    document.getElementById("id").value = "";
+  } else {
+    //save
+    //get data from form
+    var item = {
+      id: id + 1,
+      main1: document.getElementById("main1").value,
+      main2: document.getElementById("main2").value,
+      main3: document.getElementById("main3").value,
+      main4: document.getElementById("main4").value,
+      main5: document.getElementById("main5").value,
+      main6: document.getElementById("main6").value,
+    };
+
+    //add item data to array contactlist
+    contactList.push(item);
+  }
+
+  // save array into localstorage
+  localStorage.setItem("listItem", JSON.stringify(contactList));
+  localStorage.setItem("putaran", id);
+
+  localStorage.setItem("main1", document.getElementById("main1").value);
+  localStorage.setItem("main2", document.getElementById("main2").value);
+  localStorage.setItem("main3", document.getElementById("main3").value);
+  localStorage.setItem("main4", document.getElementById("main4").value);
+  localStorage.setItem("main5", document.getElementById("main5").value);
+  localStorage.setItem("main6", document.getElementById("main6").value);
+
+  ntd1 = Number(localStorage.getItem("nt1"));
+  ntd2 = Number(localStorage.getItem("nt2"));
+  ntd3 = Number(localStorage.getItem("nt3"));
+  ntd4 = Number(localStorage.getItem("nt4"));
+  ntd5 = Number(localStorage.getItem("nt5"));
+  ntd6 = Number(localStorage.getItem("nt6"));
+
+  mn1 = Number(localStorage.getItem("main1"));
+  mn2 = Number(localStorage.getItem("main2"));
+  mn3 = Number(localStorage.getItem("main3"));
+  mn4 = Number(localStorage.getItem("main4"));
+  mn5 = Number(localStorage.getItem("main5"));
+  mn6 = Number(localStorage.getItem("main6"));
+
+  localStorage.setItem("nt1", ntd1 + mn1);
+  localStorage.setItem("nt2", ntd2 + mn2);
+  localStorage.setItem("nt3", ntd3 + mn3);
+  localStorage.setItem("nt4", ntd4 + mn4);
+  localStorage.setItem("nt5", ntd5 + mn5);
+  localStorage.setItem("nt6", ntd6 + mn6);
+
+  document.getElementById("hn1").textContent = localStorage.getItem("nt1");
+  document.getElementById("hn2").textContent = localStorage.getItem("nt2");
+  document.getElementById("hn3").textContent = localStorage.getItem("nt3");
+  document.getElementById("hn4").textContent = localStorage.getItem("nt4");
+  document.getElementById("hn5").textContent = localStorage.getItem("nt5");
+  document.getElementById("hn6").textContent = localStorage.getItem("nt6");
+
+  document.getElementById("pembuka").style.display = "none";
+  document.getElementById("nilai").style.display = "block";
+  document.getElementById("isinya").style.display = "block";
+
+  allData();
+  urtn();
+
+  //remove form data
+  document.getElementById("form").reset();
+  window.scrollTo(0, 0);
+
+}
+
+function removeData(id) {
+  //get data from localstorage and store to contaclist array
+  //we must to use JSON.parse, because data as string, we need convert to array
+  contactList = JSON.parse(localStorage.getItem("listItem")) ?? [];
+
+  contactList = contactList.filter(function(value) {
+    return value.id != id;
+  });
+
+  // save array into localstorage
+  localStorage.setItem("listItem", JSON.stringify(contactList));
+
+  //get data again
+  allData();
+}
+
+//method to get all data
+function allData() {
+  table.innerHTML = ``;
+  //get data from localstorage and store to contaclist array
+  //we must to use JSON.parse, because data as string, we need convert to array
+  contactList = JSON.parse(localStorage.getItem("listItem")) ?? [];
+
+  //looping data and show data in table
+  contactList.forEach(function(value, i) {
+    var table = document.getElementById("table");
+
+    table.innerHTML += `
+                  <tr>
+                      <td class="fw-bold">${i + 1}</td>
+                      <td>${value.main1}</td>
+                      <td>${value.main2}</td>
+                      <td>${value.main3}</td>
+                      <td>${value.main4}</td>
+                      <td>${value.main5}</td>
+                      <td>${value.main6}</td> 
+                  </tr>`;
+  });
+}
+
+function hapusNilai() {
+  var reset = confirm('apakah anda yakin menghapus semua nilai ?')
+  if (reset === true) {
+    localStorage.removeItem("main1")
+    localStorage.removeItem("main2")
+    localStorage.removeItem("main3")
+    localStorage.removeItem("main4")
+    localStorage.removeItem("main5")
+    localStorage.removeItem("main6")
+    localStorage.removeItem("nt1")
+    localStorage.removeItem("nt2")
+    localStorage.removeItem("nt3")
+    localStorage.removeItem("nt4")
+    localStorage.removeItem("nt5")
+    localStorage.removeItem("nt6")
+    localStorage.removeItem("listItem")
+    location.reload()
+  }
+  else {
+    location.reload();
+  }
+
+
+
+}
+
+
+  </script>
+  <script>
+    function showModal() {
+      $('#myModal').modal('show');
+    }
+  </script>
+  <script>
+    allData();
+  </script>
+  <script>
+
+    const clockElement = document.getElementById('clock');
+
+    setInterval(function () {
+      let date = new Date();
+      clockElement.innerHTML = date.toLocaleTimeString();
+    }, 1000);
+
+    function clearData() {
+      var reset = confirm('apakah anda yakin menghapus semua data nilai dan nama pemain ?')
+      if (reset === true) {
+        localStorage.removeItem("listItem");
+        localStorage.removeItem("nameP1");
+        localStorage.removeItem("nameP2");
+        localStorage.removeItem("nameP3");
+        localStorage.removeItem("nameP4");
+        localStorage.removeItem("nameP5");
+        localStorage.removeItem("nameP6");
+        localStorage.removeItem("main1");
+        localStorage.removeItem("main2");
+        localStorage.removeItem("main3");
+        localStorage.removeItem("main4");
+        localStorage.removeItem("main5");
+        localStorage.removeItem("main6");
+        localStorage.removeItem("nt1");
+        localStorage.removeItem("nt2");
+        localStorage.removeItem("nt3");
+        localStorage.removeItem("nt4");
+        localStorage.removeItem("nt5");
+        localStorage.removeItem("nt6");
+        localStorage.removeItem("kds");
+        localStorage.removeItem("putaran");
+        location.reload();
+      } else {
+        location.reload();
+      }
+
+
+    }
+  </script>
+
+  <script>
+    let p1 = document.getElementById("p1");
+    let p2 = document.getElementById("p2");
+    let p3 = document.getElementById("p3");
+    let p4 = document.getElementById("p4");
+    let p5 = document.getElementById("p5");
+    let p6 = document.getElementById("p6");
+
+    let nt1 = document.getElementById("nt1");
+    let nt2 = document.getElementById("nt2");
+    let nt3 = document.getElementById("nt3");
+    let nt4 = document.getElementById("nt4");
+    let nt5 = document.getElementById("nt5");
+    let nt6 = document.getElementById("nt6");
+
+    let lp1 = document.getElementById("lp1");
+    let lp2 = document.getElementById("lp2");
+    let lp3 = document.getElementById("lp3");
+    let lp4 = document.getElementById("lp4");
+    let lp5 = document.getElementById("lp5");
+    let lp6 = document.getElementById("lp6");
+
+    let tp1 = document.getElementById("tp1");
+    let tp2 = document.getElementById("tp2");
+    let tp3 = document.getElementById("tp3");
+    let tp4 = document.getElementById("tp4");
+    let tp5 = document.getElementById("tp5");
+    let tp6 = document.getElementById("tp6");
+
+    let main1 = document.getElementById('main1')
+    let main2 = document.getElementById('main2')
+    let main3 = document.getElementById('main3')
+    let main4 = document.getElementById('main4')
+    let main5 = document.getElementById('main5')
+    let main6 = document.getElementById('main6')
+
+    let gn1 = document.getElementById('gn1')
+    let gn2 = document.getElementById('gn2')
+    let gn3 = document.getElementById('gn3')
+    let gn4 = document.getElementById('gn4')
+    let gn5 = document.getElementById('gn5')
+    let gn6 = document.getElementById('gn6')
+
+    let tblgn1 = document.getElementById('tblgn1')
+    let tblgn2 = document.getElementById('tblgn2')
+
+    let table = document.getElementById("table");
+
+
+
+    // fungsi tombol mulai
+    function mulai() {
+      localStorage.setItem("nameP1", p1.value);
+      localStorage.setItem("nameP2", p2.value);
+      localStorage.setItem("nameP3", p3.value);
+      localStorage.setItem("nameP4", p4.value);
+      localStorage.setItem("nameP5", p5.value);
+      localStorage.setItem("nameP6", p6.value);
+
+      localStorage.setItem("nt1", 0);
+      localStorage.setItem("nt2", 0);
+      localStorage.setItem("nt3", 0);
+      localStorage.setItem("nt4", 0);
+      localStorage.setItem("nt5", 0);
+      localStorage.setItem("nt6", 0);
+
+      localStorage.setItem("kds", "ok");
+
+      document.getElementById('lab1').textContent = localStorage.getItem("nameP1");
+      document.getElementById('lab2').textContent = localStorage.getItem("nameP2");
+      document.getElementById('lab3').textContent = localStorage.getItem("nameP3");
+      document.getElementById('lab4').textContent = localStorage.getItem("nameP4");
+      document.getElementById('lab5').textContent = localStorage.getItem("nameP5");
+      document.getElementById('lab6').textContent = localStorage.getItem("nameP6");
+
+      document.getElementsByName('main1')[0].placeholder = `isi nilai ${localStorage.getItem("nameP1")}`;
+      document.getElementsByName('main2')[0].placeholder = `isi nilai ${localStorage.getItem("nameP2")}`;
+      document.getElementsByName('main3')[0].placeholder = `isi nilai ${localStorage.getItem("nameP3")}`;
+      document.getElementsByName('main4')[0].placeholder = `isi nilai ${localStorage.getItem("nameP4")}`;
+      document.getElementsByName('main5')[0].placeholder = `isi nilai ${localStorage.getItem("nameP5")}`;
+      document.getElementsByName('main6')[0].placeholder = `isi nilai ${localStorage.getItem("nameP6")}`;
+
+      tp1.textContent = localStorage.getItem("nameP1");
+      tp2.textContent = localStorage.getItem("nameP2");
+      tp3.textContent = localStorage.getItem("nameP3");
+      tp4.textContent = localStorage.getItem("nameP4");
+      tp5.textContent = localStorage.getItem("nameP5");
+      tp6.textContent = localStorage.getItem("nameP6");
+
+      document.getElementById("niiil1").textContent = localStorage.getItem("nameP1");
+      document.getElementById("niiil12").textContent = 0;
+      document.getElementById("niiil2").textContent = localStorage.getItem("nameP2");
+      document.getElementById("niiil22").textContent = 0;
+      document.getElementById("niiil3").textContent = localStorage.getItem("nameP3");
+      document.getElementById("niiil32").textContent = 0;
+      document.getElementById("niiil4").textContent = localStorage.getItem("nameP4");
+      document.getElementById("niiil42").textContent = 0;
+      document.getElementById("niiil5").textContent = localStorage.getItem("nameP5");
+      document.getElementById("niiil52").textContent = 0;
+      document.getElementById("niiil6").textContent = localStorage.getItem("nameP6");
+      document.getElementById("niiil62").textContent = 0;
+
+      pembuka.style.display = "none"
+      document.getElementById('gantinama').style.display = 'block'
+
+      document.getElementById('nilai').style.display = 'block'
+      document.getElementById('isinya').style.display = 'block'
+
+      gnma()
+
+      alert('isi nilai dibawah')
+
+
+    }
+
+    let pembuka = document.getElementById('pembuka')
+    pembuka.style.display = "block"
+    document.getElementById('nilai').style.display = 'none'
+    document.getElementById('isinya').style.display = 'none'
+    document.getElementById('gantinama').style.display = 'none'
+
+    // kondisi saat di reffresh
+    if (localStorage.getItem("kds", "ok")) {
+      reloadData()
+      urtn()
+      gnma()
+    }
+
+    // fungsi tampilan
+    function reloadData() {
+      pembuka.style.display = "none"
+      document.getElementById('nilai').style.display = 'block'
+      document.getElementById('isinya').style.display = 'block'
+      document.getElementById('gantinama').style.display = 'block'
+
+      tp1.textContent = localStorage.getItem("nameP1");
+      tp2.textContent = localStorage.getItem("nameP2");
+      tp3.textContent = localStorage.getItem("nameP3");
+      tp4.textContent = localStorage.getItem("nameP4");
+      tp5.textContent = localStorage.getItem("nameP5");
+      tp6.textContent = localStorage.getItem("nameP6");
+
+      document.getElementById('lab1').textContent = localStorage.getItem("nameP1");
+      document.getElementById('lab2').textContent = localStorage.getItem("nameP2");
+      document.getElementById('lab3').textContent = localStorage.getItem("nameP3");
+      document.getElementById('lab4').textContent = localStorage.getItem("nameP4");
+      document.getElementById('lab5').textContent = localStorage.getItem("nameP5");
+      document.getElementById('lab6').textContent = localStorage.getItem("nameP6");
+
+      document.getElementById('hn1').textContent = localStorage.getItem("nt1");
+      document.getElementById('hn2').textContent = localStorage.getItem("nt2");
+      document.getElementById('hn3').textContent = localStorage.getItem("nt3");
+      document.getElementById('hn4').textContent = localStorage.getItem("nt4");
+      document.getElementById('hn5').textContent = localStorage.getItem("nt5");
+      document.getElementById('hn6').textContent = localStorage.getItem("nt6");
+
+      document.getElementsByName('main1')[0].placeholder = `isi nilai ${localStorage.getItem("nameP1")}`;
+      document.getElementsByName('main2')[0].placeholder = `isi nilai ${localStorage.getItem("nameP2")}`;
+      document.getElementsByName('main3')[0].placeholder = `isi nilai ${localStorage.getItem("nameP3")}`;
+      document.getElementsByName('main4')[0].placeholder = `isi nilai ${localStorage.getItem("nameP4")}`;
+      document.getElementsByName('main5')[0].placeholder = `isi nilai ${localStorage.getItem("nameP5")}`;
+      document.getElementsByName('main6')[0].placeholder = `isi nilai ${localStorage.getItem("nameP6")}`;
+
+      document.getElementById('tgnma').textContent = 'isi nama baru'
+      gnma()
+    }
+
+    // mengganti option select
+    function gnma() {
+      let gnma1 = document.getElementById("gnma1");
+      let gnma2 = document.getElementById("gnma2");
+      let gnma3 = document.getElementById("gnma3");
+      let gnma4 = document.getElementById("gnma4");
+      let gnma5 = document.getElementById("gnma5");
+      let gnma6 = document.getElementById("gnma6");
+
+      gnma1.textContent = localStorage.getItem("nameP1");
+      gnma2.textContent = localStorage.getItem("nameP2");
+      gnma3.textContent = localStorage.getItem("nameP3");
+      gnma4.textContent = localStorage.getItem("nameP4");
+      gnma5.textContent = localStorage.getItem("nameP5");
+      gnma6.textContent = localStorage.getItem("nameP6");
+    }
+
+    // fungsi tombol gnma2
+    function gnma2() {
+      let tgnma = document.getElementById("tgnma");
+      let gnma = document.getElementById("gantinamaa").value;
+
+      if (tgnma.value == "") {
+        alert("tidak ada nama yang diganti !!!");
+      } else {
+        if (gnma == "1") {
+          alert(localStorage.getItem("nameP1") + " telah diganti dengan " + tgnma.value);
+          localStorage.setItem("nameP1", tgnma.value);
+          reloadData()
+          urtn()
+        }
+        else if (gnma == "2") {
+          alert(localStorage.getItem("nameP2") + " telah diganti dengan " + tgnma.value);
+          localStorage.setItem("nameP2", tgnma.value);
+          reloadData()
+          urtn()
+        }
+        else if (gnma == "3") {
+          alert(localStorage.getItem("nameP3") + " telah diganti dengan " + tgnma.value);
+          localStorage.setItem("nameP3", tgnma.value);
+          reloadData()
+          urtn()
+        }
+        else if (gnma == "4") {
+          alert(localStorage.getItem("nameP4") + " telah diganti dengan " + tgnma.value);
+          localStorage.setItem("nameP4", tgnma.value);
+          reloadData()
+          urtn()
+        }
+        else if (gnma == "5") {
+          alert(localStorage.getItem("nameP5") + " telah diganti dengan " + tgnma.value);
+          localStorage.setItem("nameP5", tgnma.value);
+          reloadData()
+          urtn()
+        }
+        else {
+          alert(localStorage.getItem("nameP6") + " telah diganti dengan " + tgnma.value);
+          localStorage.setItem("nameP6", tgnma.value);
+          reloadData()
+          urtn()
+        }
+      }
+    }
+
+    function pmp() {
+      // membuat objek SpeechSynthesisUtterance
+      var msg = new SpeechSynthesisUtterance();
+      var put = Number(localStorage.getItem("putaran")) + 1
+      var urutan = JSON.parse(localStorage.getItem("urutan"))
+
+      // mengatur teks yang ingin diubah menjadi suara
+      msg.text = `di putaran ke ${put}, perolehan nilai adalah, nilai tertinggi  ${urutan[0][0]}' dengan'${urutan[0][1]}' kemudian'${urutan[1][0]}' '${urutan[1][1]}' '${urutan[2][0]}' '${urutan[2][1]}' '${urutan[3][0]}' '${urutan[3][1]}'dan urutan 2 terbawah adalah '${urutan[4][0]}' '${urutan[4][1]}'dan'${urutan[5][0]}' '${urutan[5][1]}`;
+
+      // mengatur bahasa menjadi Bahasa Indonesia
+      msg.lang = "id-ID";
+
+      // mengatur kecepatan menjadi lambat
+      msg.rate = 1.3;
+
+      // mengucapkan teks menggunakan sintesis suara
+      window.speechSynthesis.speak(msg);
+    }
+
+
+    // RESET
+
+    function reset() {
+      var reset = confirm('apakah anda yakin menghapus semua data nilai dan nama pemain ?')
+      if (reset === true) {
+        localStorage.clear();
+        location.reload();
+      } else {
+        location.reload();
+      }
+    }
+
+
+// RESET END
+
+
+
+  </script>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
